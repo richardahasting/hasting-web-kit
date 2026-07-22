@@ -1,0 +1,18 @@
+{
+  "canyon-lake": {
+    "display_name": "Canyon Lake Monitor",
+    "app_url": "https://iscanyonlakefullyet.org",
+    "origins": ["https://iscanyonlakefullyet.org"],
+    "github_repo": "richardahasting/canyon_lake_monitor",
+    "email_to": "richard@hastingtx.org",
+    "email_from": "canyon-lake@hastingtx.org"
+  },
+  "letters-from-dick": {
+    "display_name": "Letters from Dick",
+    "app_url": "https://hastingtx.org/letters",
+    "origins": ["https://hastingtx.org"],
+    "github_repo": "richardahasting/letters-from-dick",
+    "email_to": "richard@hastingtx.org",
+    "email_from": "feedback@hastingtx.org"
+  }
+}

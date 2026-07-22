@@ -1,0 +1,20 @@
+# systemd unit for the central feedback service.
+# Install: sudo cp deploy/feedback-kit.service /etc/systemd/system/
+#          sudo systemctl daemon-reload && sudo systemctl enable --now feedback-kit
+[Unit]
+Description=hasting-web-kit central feedback service
+After=network.target
+
+[Service]
+User=richard
+WorkingDirectory=/home/richard/projects/hasting-web-kit/service
+EnvironmentFile=/home/richard/projects/hasting-web-kit/service/.env
+ExecStart=/home/richard/projects/hasting-web-kit/venv/bin/gunicorn \
+    --workers 2 --threads 4 --timeout 90 \
+    --bind 127.0.0.1:8090 \
+    "app:create_app()"
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

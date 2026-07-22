@@ -1,0 +1,157 @@
+/* hasting-web-kit — base.css
+ *
+ * Shared furniture for non-React apps: a light reset, the [hidden] guard,
+ * and the recurring primitives (buttons, cards, form fields, badges).
+ * Import AFTER tokens.css. Class prefix: hk- (Hasting Kit).
+ */
+
+/* ---- guards ------------------------------------------------------------ */
+
+/* The UA's [hidden]{display:none} loses to ANY author display rule
+   (Playbook 2026-07-22). This !important guard makes `hidden` mean hidden,
+   site-wide, no matter what display value a class sets. */
+[hidden] {
+  display: none !important;
+}
+
+/* ---- light reset ------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  color: var(--foreground);
+  background: var(--background);
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---- buttons ------------------------------------------------------------ */
+
+.hk-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: 0.5em 1.1em;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.hk-btn:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.hk-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.hk-btn-primary {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+.hk-btn-primary:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.hk-btn-secondary {
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+  border-color: var(--border);
+}
+
+.hk-btn-destructive {
+  background: var(--destructive);
+  color: var(--destructive-foreground);
+}
+
+/* ---- cards -------------------------------------------------------------- */
+
+.hk-card {
+  background: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-lg);
+}
+
+/* ---- form fields --------------------------------------------------------- */
+
+.hk-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-md);
+}
+
+.hk-field label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.hk-input,
+.hk-textarea,
+.hk-select {
+  font-family: inherit;
+  font-size: var(--text-base);
+  color: var(--foreground);
+  background: var(--background);
+  border: 1px solid var(--input);
+  border-radius: var(--radius-sm);
+  padding: 0.5em 0.7em;
+}
+
+.hk-input:focus,
+.hk-textarea:focus,
+.hk-select:focus {
+  outline: 2px solid var(--ring);
+  outline-offset: 1px;
+  border-color: var(--ring);
+}
+
+.hk-textarea {
+  resize: vertical;
+  min-height: 6em;
+}
+
+/* ---- badges & hints ------------------------------------------------------ */
+
+.hk-badge {
+  display: inline-block;
+  padding: 0.15em 0.6em;
+  border-radius: 999px;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  background: var(--muted);
+  color: var(--muted-foreground);
+}
+
+.hk-hint {
+  font-size: var(--text-sm);
+  color: var(--muted-foreground);
+}
+
+.hk-error-text {
+  font-size: var(--text-sm);
+  color: var(--destructive);
+}

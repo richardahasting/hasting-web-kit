@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!-- Browser harness for <hasting-feedback>.
+
+     Serve the repo root and open this page:
+         python3 -m http.server 8099   (from the repo root)
+         http://localhost:8099/tests/component/test-page.html
+
+     Point it at a locally running service (service/app.py on :8090) to
+     exercise the full round trip, or leave the endpoint as-is to watch the
+     widget's network-failure handling. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>hasting-feedback harness</title>
+  <link rel="stylesheet" href="../../kit/tokens.css">
+  <link rel="stylesheet" href="../../kit/base.css">
+  <style>
+    main { max-width: 40rem; margin: 3rem auto; padding: 0 1rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>hasting-feedback harness</h1>
+    <div class="hk-card">
+      <p>Checklist:</p>
+      <ol>
+        <li>Page loads with <strong>no visible modal</strong> — button only.</li>
+        <li>Button opens the modal; ESC, ✕, Cancel, and overlay click close it.</li>
+        <li>Short text (&lt;10 chars) shows an inline error.</li>
+        <li>Attach / paste (Ctrl+V) / drag-drop an image → preview appears; Remove works.</li>
+        <li>A non-image or &gt;5 MB file shows an error, not a crash.</li>
+        <li>Send with the service down → "Could not reach the server."</li>
+        <li>Send with the local service up → success panel, auto-close in 6 s.</li>
+      </ol>
+    </div>
+  </main>
+
+  <script type="module" src="../../kit/feedback.js"></script>
+  <hasting-feedback app="test-app"
+                    endpoint="http://127.0.0.1:8090/api/feedback"></hasting-feedback>
+</body>
+</html>

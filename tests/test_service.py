@@ -341,3 +341,29 @@ def test_healthz_lists_apps(client):
     body = client.get("/healthz").get_json()
     assert body["ok"] is True
     assert body["apps"] == ["other-app", "test-app"]
+
+
+# ---------------------------------------------------------------------------
+# private_repo flag
+# ---------------------------------------------------------------------------
+
+def test_private_repo_suppresses_github_url(tmp_path, routed, monkeypatch):
+    monkeypatch.setattr(
+        routing, "process_feedback",
+        lambda *a, **kw: (True, "github_issue",
+                          "https://github.com/richardahasting/private-app/issues/9"))
+    apps = dict(APPS)
+    apps["private-app"] = dict(APPS["test-app"], private_repo=True)
+    app = app_module.create_app({
+        "TESTING": True,
+        "APPS": apps,
+        "UPLOAD_DIR": str(tmp_path),
+        "UPLOAD_URL_BASE": "https://x/u",
+    })
+    c = app.test_client()
+    body = post(c, app="private-app").get_json()
+    assert body["action"] == "github_issue"
+    assert body["github_url"] is None
+    # non-private apps still get the link
+    body2 = post(c, app="test-app").get_json()
+    assert body2["github_url"].endswith("/issues/9")

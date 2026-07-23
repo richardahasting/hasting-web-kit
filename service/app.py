@@ -179,6 +179,10 @@ def create_app(config=None):
                 ok=False,
                 error="We couldn't record your feedback just now. Please try again later.",
             ), 502
+        # Private repos: the issue exists but public visitors can't see it —
+        # suppress the link so the widget shows the plain thank-you instead.
+        if app_cfg.get("private_repo"):
+            github_url = None
         return jsonify(ok=True, action=action, github_url=github_url)
 
     # ---- helpers ----------------------------------------------------------

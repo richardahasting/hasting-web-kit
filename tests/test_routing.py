@@ -179,3 +179,10 @@ def test_missing_github_repo_fails_closed(monkeypatch):
     cfg = dict(APP_CFG, github_repo=None)
     url, ok = routing._create_github_issue(cfg, "T", "B", [], "", "")
     assert (url, ok) == (None, False)
+
+
+def test_send_email_refuses_without_configured_addresses(monkeypatch):
+    """No built-in recipient: unconfigured email must fail closed, not mail the author."""
+    monkeypatch.delenv("FEEDBACK_EMAIL", raising=False)
+    monkeypatch.delenv("EMAIL_FROM", raising=False)
+    assert routing._send_email({}, "subject", "body") is False

@@ -77,6 +77,30 @@ node --test tests/component/*.test.mjs     # widget core tests
 python3 -m http.server 8099       # then open /tests/component/test-page.html
 ```
 
+## Running your own copy
+
+The examples above use Richard's hosted service. To use this yourself you need
+your own instance, because the widget posts to whatever service it is pointed at.
+
+1. Clone the repo, `python3 -m venv venv && venv/bin/pip install -r service/requirements.txt`.
+2. `cp service/.env.example service/.env` and `cp service/apps.json.example service/apps.json`;
+   fill in your GitHub token, repos, origins and email addresses. Both files are gitignored.
+3. Routing uses the `claude` CLI (no Anthropic API key). Install and sign in to it for the
+   service user, or set `CLAUDE_BIN`. If it is unavailable, feedback falls back to plain email.
+4. Edit `deploy/feedback-kit.service` and `deploy/nginx-feedback.conf` (user, paths, domain,
+   certs) and install them. Publish the kit with `deploy/release-kit.sh`.
+5. In each site, load the kit from **your** domain and point the widget at your API:
+
+```html
+<script type="module" src="https://feedback.example.com/kit/v1/feedback.js"></script>
+<hasting-feedback app="my-app" endpoint="https://feedback.example.com/api/feedback"></hasting-feedback>
+```
+
+The `endpoint` attribute is required for your own copy: the built-in default
+(`DEFAULT_ENDPOINT` in `kit/feedback.js`) targets the original author's service.
+Email needs `email_to`/`email_from` per app (or `FEEDBACK_EMAIL`/`EMAIL_FROM` in `.env`);
+there are no built-in addresses.
+
 ## Deploy (linuxserver)
 
 See `deploy/`: `feedback-kit.service` (gunicorn on 127.0.0.1:8090),

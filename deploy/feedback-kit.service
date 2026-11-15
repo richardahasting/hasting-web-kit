@@ -6,10 +6,10 @@ Description=hasting-web-kit central feedback service
 After=network.target
 
 [Service]
-User=richard
-WorkingDirectory=/home/richard/projects/hasting-web-kit/service
-EnvironmentFile=/home/richard/projects/hasting-web-kit/service/.env
-ExecStart=/home/richard/projects/hasting-web-kit/venv/bin/gunicorn \
+User=youruser
+WorkingDirectory=/path/to/hasting-web-kit/service
+EnvironmentFile=/path/to/hasting-web-kit/service/.env
+ExecStart=/path/to/hasting-web-kit/venv/bin/gunicorn \
     --workers 2 --threads 4 --timeout 90 \
     --bind 127.0.0.1:8090 \
     "app:create_app()"

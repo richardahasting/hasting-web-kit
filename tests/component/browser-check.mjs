@@ -21,7 +21,7 @@ import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 
-const require = createRequire("/home/richard/");
+const require = createRequire(process.env.PUPPETEER_FROM || process.cwd() + "/");
 const puppeteer = require("puppeteer");
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");

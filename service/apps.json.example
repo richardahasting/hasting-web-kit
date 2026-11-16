@@ -1,18 +1,18 @@
 {
-  "canyon-lake": {
-    "display_name": "Canyon Lake Monitor",
-    "app_url": "https://iscanyonlakefullyet.org",
-    "origins": ["https://iscanyonlakefullyet.org"],
-    "github_repo": "richardahasting/canyon_lake_monitor",
-    "email_to": "richard@hastingtx.org",
-    "email_from": "canyon-lake@hastingtx.org"
+  "my-app": {
+    "display_name": "My App",
+    "app_url": "https://example.com",
+    "origins": ["https://example.com"],
+    "github_repo": "your-user/your-repo",
+    "email_to": "you@example.com",
+    "email_from": "feedback@example.com"
   },
-  "letters-from-dick": {
-    "display_name": "Letters from Dick",
-    "app_url": "https://hastingtx.org/letters",
-    "origins": ["https://hastingtx.org"],
-    "github_repo": "richardahasting/letters-from-dick",
-    "email_to": "richard@hastingtx.org",
-    "email_from": "feedback@hastingtx.org"
+  "my-other-app": {
+    "display_name": "My Other App",
+    "app_url": "https://example.com/other",
+    "origins": ["https://example.com"],
+    "github_repo": "your-user/your-other-repo",
+    "email_to": "you@example.com",
+    "email_from": "feedback@example.com"
   }
 }

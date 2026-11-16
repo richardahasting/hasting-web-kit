@@ -17,6 +17,7 @@ Routing via the `claude` CLI (no ANTHROPIC_API_KEY needed):
 import json
 import logging
 import os
+import shutil
 import smtplib
 import subprocess
 import urllib.error
@@ -108,7 +109,7 @@ def _call_claude_cli(app_cfg, name, email, text, page, screenshot_url):
         app_url=app_cfg.get("app_url", "unknown URL"),
     )
 
-    claude_bin = os.environ.get("CLAUDE_BIN", "/home/richard/.local/bin/claude")
+    claude_bin = os.environ.get("CLAUDE_BIN") or shutil.which("claude") or "claude"
     # Remove CLAUDECODE so nested-session detection doesn't block us
     env = os.environ.copy()
     env.pop("CLAUDECODE", None)
@@ -182,14 +183,17 @@ def _create_github_issue(app_cfg, title, body, labels, name, email):
 
 
 # ---------------------------------------------------------------------------
-# Email sending (local Postfix on linuxserver, no auth needed)
+# Email sending (SMTP_HOST/SMTP_PORT, default local Postfix, no auth)
 # ---------------------------------------------------------------------------
 
 def _send_email(app_cfg, subject, body):
-    to_addr = app_cfg.get("email_to") or os.environ.get(
-        "FEEDBACK_EMAIL", "richard@hastingtx.org")
-    from_addr = app_cfg.get("email_from") or os.environ.get(
-        "EMAIL_FROM", "feedback@hastingtx.org")
+    # No built-in defaults: set email_to/email_from per app in apps.json,
+    # or FEEDBACK_EMAIL / EMAIL_FROM in .env as a service-wide fallback.
+    to_addr = app_cfg.get("email_to") or os.environ.get("FEEDBACK_EMAIL")
+    from_addr = app_cfg.get("email_from") or os.environ.get("EMAIL_FROM")
+    if not to_addr or not from_addr:
+        log.error("Email not sent (%s): no email_to/email_from configured", subject)
+        return False
     display = app_cfg.get("display_name", "Hasting Feedback")
     smtp_host = os.environ.get("SMTP_HOST", "localhost")
     smtp_port = int(os.environ.get("SMTP_PORT", "25"))
